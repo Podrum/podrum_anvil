@@ -47,6 +47,7 @@ class region:
                 ccc += b"\x00" * remaining
                 break
             i += 4096
+        sector_count: int = len(ccc) >> 12
         index_location_data: bytes = b""
         timestamp_data: bytes = b""
         chunks_data: bytes = b""
