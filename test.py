@@ -1,9 +1,7 @@
-x = 0
-z = 0
+from region import region
 
-while z < 256:
-     print(f"{z} {x}")
-     if not x < 256:
-         x = 0
-         z += 1
-     x += 1
+reg = region("./r.0.0.mca")
+chunk = reg.get_chunk(0, 4)
+reg.put_chunk(0, 4, chunk)
+chunk = reg.get_chunk(0, 4)
+print(chunk)
