@@ -76,7 +76,6 @@ class region:
                 else:
                     index_location_data += b"\x00" * 4
                     timestamp_data += b"\x00" * 4
-                print(f"{temp_z} {temp_x}")
             if not temp_x < 256:
                 temp_x: int = 0
                 temp_z += 1
