@@ -47,40 +47,34 @@ class region:
                 ccc += b"\x00" * remaining
                 break
             i += 4096
-        sector_count: int = len(ccc) >> 12
+        index_location: int = self.get_location(x, z)
         index_location_data: bytes = b""
         timestamp_data: bytes = b""
         chunks_data: bytes = b""
-        temp_x: int = 0
-        temp_z: int = 0
         offset: int = 3
-        while temp_z < 256:
-            if temp_x == x and temp_z == z:
+        for i in range(0, 256):
+            if i == index_location:
+                sector_count: int = len(ccc) >> 12
                 index_location_data += binary_converter.write_unsigned_triad_be(offset)
-                index_location_data += binary_converter.write_unsigned_byte(len(ccc) >> 12)
+                index_location_data += binary_converter.write_unsigned_byte(sector_count)
                 timestamp_data += binary_converter.write_unsigned_int(int(time.time()))
                 chunks_data += ccc
-                offset += len(ccc) >> 12
+                offset += sector_count
             else:
-                index_location: int = self.get_location(temp_x, temp_z)
-                file.seek(index_location)
-                temp_offset: int = binary_converter.read_unsigned_triad_be(file.read(3))
-                temp_sector_count: int = binary_converter.read_unsigned_byte(file.read(1))
-                if temp_offset > 0 and temp_sector_count > 0:
+                file.seek(i << 12)
+                chunk_offset: int = binary_converter.read_unsigned_triad_be(file.read(3)) >> 12
+                sector_count: int = binary_converter.read_unsigned_byte(file.read(1))
+                if chunk_offset > 0 and sector_count > 0:
                     index_location_data += binary_converter.write_unsigned_triad_be(offset)
-                    index_location_data += binary_converter.write_unsigned_byte(temp_sector_count)
-                    file.seek(index_location << 12)
+                    index_location_data += binary_converter.write_unsigned_byte(sector_count)
+                    offset += sector_count
+                    file.seek((i << 12) << 12)
                     timestamp_data += file.read(4)
-                    file.seek(temp_offset << 12)
-                    chunks_data += file.read(temp_sector_count << 12)
-                    offset += temp_sector_count
+                    file.seek(chunk_offset)
+                    chunks_data += file.read(sector_count << 12)    
                 else:
                     index_location_data += b"\x00" * 4
                     timestamp_data += b"\x00" * 4
-            if not temp_x < 256:
-                temp_x: int = 0
-                temp_z += 1
-            temp_x += 1
         file.seek(0)
         file.write(index_location_data + timestamp_data + chunks_data)
         file.close()
