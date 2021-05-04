@@ -57,7 +57,7 @@ class region:
                 sector_count: int = len(ccc) >> 12
                 index_location_data += binary_converter.write_unsigned_triad_be(offset)
                 index_location_data += binary_converter.write_unsigned_byte(sector_count)
-                timestamp_data += binary_converter.write_unsigned_int(int(time.time()))
+                timestamp_data += binary_converter.write_unsigned_int_be(int(time.time()))
                 chunks_data += ccc
                 offset += sector_count
             else:
