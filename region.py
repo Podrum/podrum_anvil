@@ -51,7 +51,7 @@ class region:
         index_location_data: bytes = b""
         timestamp_data: bytes = b""
         chunks_data: bytes = b""
-        offset: int = 3
+        offset: int = 2
         for i in range(0, 256):
             if i == (index_location >> 2):
                 sector_count: int = len(ccc) >> 12
