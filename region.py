@@ -53,7 +53,7 @@ class region:
         chunks_data: bytes = b""
         offset: int = 3
         for i in range(0, 256):
-            if i == index_location:
+            if i == (index_location >> 2):
                 sector_count: int = len(ccc) >> 12
                 index_location_data += binary_converter.write_unsigned_triad_be(offset)
                 index_location_data += binary_converter.write_unsigned_byte(sector_count)
@@ -61,16 +61,16 @@ class region:
                 chunks_data += ccc
                 offset += sector_count
             else:
-                file.seek(i << 12)
-                chunk_offset: int = binary_converter.read_unsigned_triad_be(file.read(3)) >> 12
+                file.seek(i << 2)
+                chunk_offset: int = binary_converter.read_unsigned_triad_be(file.read(3))
                 sector_count: int = binary_converter.read_unsigned_byte(file.read(1))
                 if chunk_offset > 0 and sector_count > 0:
                     index_location_data += binary_converter.write_unsigned_triad_be(offset)
                     index_location_data += binary_converter.write_unsigned_byte(sector_count)
                     offset += sector_count
-                    file.seek((i << 12) << 12)
+                    file.seek((i << 2) << 12)
                     timestamp_data += file.read(4)
-                    file.seek(chunk_offset)
+                    file.seek(chunk_offset << 12)
                     chunks_data += file.read(sector_count << 12)    
                 else:
                     index_location_data += b"\x00" * 4
