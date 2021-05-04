@@ -18,7 +18,7 @@ class region:
         sector_count: int = binary_converter.read_unsigned_byte(file.read(1))
         if offset == 0 and sector_count == 0:
             return b""
-        file.seek(offset * 4096)
+        file.seek(offset << 12)
         length: int = binary_converter.read_unsigned_int_be(file.read(4))
         compression_type: int = binary_converter.read_unsigned_byte(file.read(1))
         chunk_data: bytes = file.read(length)
