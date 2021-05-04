@@ -30,7 +30,6 @@ class region:
 
     def put_chunk(self, x: int, z: int, chunk_data: bytes, compression_type: int = 2) -> None:
         file: object = open(self.path, "r+b")
-        read: str = list(file.read())
         if compression_type == 1:
             cc: bytes = gzip.compress(chunk_data)
         elif compression_type == 2:
