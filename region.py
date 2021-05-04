@@ -52,7 +52,7 @@ class region:
         chunks_data: bytes = b""
         temp_x: int = 0
         temp_z: int = 0
-        offset: int = 0
+        offset: int = 2
         while temp_z < 256:
             if temp_x == x and temp_z == z:
                 index_location_data += binary_converter.write_unsigned_triad_be(offset)
