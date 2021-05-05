@@ -39,19 +39,19 @@ class region:
         ccc: bytes = binary_converter.write_unsigned_int_be(len(cc))
         ccc += binary_converter.write_unsigned_byte(compression_type)
         ccc += cc
-        i: int = 0
+        size: int = 0
         while True:
-            remaining: int = i - len(ccc)
+            remaining: int = size - len(ccc)
             if remaining > 0:
                 ccc += b"\x00" * remaining
                 break
-            i += 4096
+            size += 4096
         index_location: int = self.get_location(x, z)
         index_location_data: bytes = b""
         timestamp_data: bytes = b""
         chunks_data: bytes = b""
         offset: int = 2
-        for i in range(0, 256):
+        for i in range(0, 1024):
             if i == (index_location >> 2):
                 sector_count: int = len(ccc) >> 12
                 index_location_data += binary_converter.write_unsigned_triad_be(offset)
@@ -67,10 +67,10 @@ class region:
                     index_location_data += binary_converter.write_unsigned_triad_be(offset)
                     index_location_data += binary_converter.write_unsigned_byte(sector_count)
                     offset += sector_count
-                    file.seek((i << 2) << 12)
+                    file.seek((i << 2) + 4096)
                     timestamp_data += file.read(4)
                     file.seek(chunk_offset << 12)
-                    chunks_data += file.read(sector_count << 12)    
+                    chunks_data += file.read(sector_count << 12)
                 else:
                     index_location_data += b"\x00" * 4
                     timestamp_data += b"\x00" * 4
