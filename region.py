@@ -27,6 +27,8 @@ class region:
             return gzip.decompress(chunk_data)
         if compression_type == 2:
             return zlib.decompress(chunk_data)
+        if compression_type == 3:
+            return chunk_data
 
     def put_chunk(self, x: int, z: int, chunk_data: bytes, compression_type: int = 2) -> None:
         file: object = open(self.path, "r+b")
@@ -34,6 +36,8 @@ class region:
             cc: bytes = gzip.compress(chunk_data)
         elif compression_type == 2:
             cc: bytes = zlib.compress(chunk_data)
+        elif compression_type == 3:
+            cc: bytes = chunk_data
         else:
             return
         ccc: bytes = binary_converter.write_unsigned_int_be(len(cc))
