@@ -41,7 +41,7 @@ class region:
     def get_location(self, x: int, z: int) -> int:
         return 4 * ((x & 31) + (z & 31) * 32)
 
-    def get_chunk(self, x: int, z: int) -> bytes:
+    def get_chunk_data(self, x: int, z: int) -> bytes:
         file: object = open(self.path, "rb")
         index_location: int = self.get_location(x, z)
         file.seek(index_location)
@@ -61,7 +61,7 @@ class region:
         if compression_type == 3:
             return chunk_data
 
-    def put_chunk(self, x: int, z: int, chunk_data: bytes, compression_type: int = 2) -> None:
+    def put_chunk_data(self, x: int, z: int, chunk_data: bytes, compression_type: int = 2) -> None:
         file: object = open(self.path, "r+b")
         if compression_type == 1:
             cc: bytes = gzip.compress(chunk_data)
