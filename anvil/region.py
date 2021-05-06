@@ -31,12 +31,16 @@
 
 from binary_utils.binary_converter import binary_converter
 import gzip
+import os
 import time
 import zlib
 
 class region:
     def __init__(self, path: str) -> None:
         self.path: str = path
+        if not os.path.isfile(path):
+            file: object = open(path, "wb")
+            file.write(b"\x00" * 8192)
 
     def get_location(self, x: int, z: int) -> int:
         return 4 * ((x & 31) + (z & 31) * 32)
