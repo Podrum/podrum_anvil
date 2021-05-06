@@ -1,7 +1,7 @@
-from region import region
+from anvil.region import region
 
-reg = region("./r.0.0.mca")
-chunk = reg.get_chunk(0, 4)
-reg.put_chunk(0, 4, chunk)
-chunk = reg.get_chunk(0, 4)
+reg: object = region("./r.0.0.mca")
+chunk: bytes = reg.get_chunk_data(0, 4)
+reg.put_chunk_data(0, 4, chunk)
+chunk: bytes = reg.get_chunk(0, 4)
 print(chunk)
