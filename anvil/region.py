@@ -39,7 +39,7 @@ class region:
     def __init__(self, path: str) -> None:
         self.path: str = path
         file_name: str = os.path.basename(path)
-        file_name_shards: list = filename.split(".")
+        file_name_shards: list = file_name.split(".")
         self.x: int = int(file_name_shards[1])
         self.z: int = int(file_name_shards[2])
         if not os.path.isfile(path):
