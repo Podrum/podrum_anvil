@@ -29,6 +29,7 @@
 #                                                                              #
 ################################################################################
 
+from anvil.chunk import chunk
 from binary_utils.binary_converter import binary_converter
 import gzip
 import os
