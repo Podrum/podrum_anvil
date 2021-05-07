@@ -2,11 +2,11 @@ from nbt_utils.tag.compound_tag import compound_tag
 from nbt_utils.utils.nbt_be_binary_stream import nbt_be_binary_stream
 
 class chunk:
-    def __init__(self, x: int, z: int):
+    def __init__(self, x: int, z: int) -> None:
         self.x: int = x
         self.z: int = z
   
-    def read_chunk_data(self, chunk_data: bytes):
+    def read_chunk_data(self, chunk_data: bytes) -> None:
         stream: object = nbt_be_binary_stream(chunk)
         tag: object = compound_tag()
         tag.read(stream)
@@ -16,4 +16,8 @@ class chunk:
         self.x: int = level_tag.get_tag("xPos").value
         self.z: int = level_tag.get_tag("zPos").value
         self.data: object = level_tag
+            
+    def write_chunk_data(self) -> bytes:
+        stream: object = nbt_be_binary_stream(chunk)
+        tag: object = compound_tag()
         
