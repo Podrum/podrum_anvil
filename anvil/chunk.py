@@ -44,7 +44,7 @@ class chunk:
         tag.read(stream)
         root_tag: object = tag.read_tag("")
         self.data_version: int = root_tag.get_tag("DataVersion").value
-        level_tag: object = tag.read_tag("Level")
+        level_tag: object = tag.get_tag("Level")
         self.x: int = level_tag.get_tag("xPos").value
         self.z: int = level_tag.get_tag("zPos").value
         self.data: object = level_tag
