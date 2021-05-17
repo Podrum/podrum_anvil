@@ -53,7 +53,7 @@ class region:
     
     @staticmethod
     def coords_to_index(x: int, z: int) -> tuple:
-        return abs(self.x << 5) - abs(x), abs(self.z << 5) - abs(y)
+        return abs(abs(self.x << 5) - abs(x)), abs(abs(self.z << 5) - abs(y))
 
     def get_chunk_data(self, x: int, z: int) -> bytes:
         file: object = open(self.path, "rb")
