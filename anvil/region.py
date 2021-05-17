@@ -47,12 +47,17 @@ class region:
             file: object = open(path, "wb")
             file.write(b"\x00" * 8192)
 
-    def get_location(self, x: int, z: int) -> int:
+    @staticmethod
+    def get_location(x: int, z: int) -> int:
         return 4 * ((x & 31) + (z & 31) * 32)
+    
+    @staticmethod
+    def coords_to_index(x: int, z: int) -> tuple:
+        return abs(self.x << 5) - abs(x), abs(self.z << 5) - abs(y)
 
     def get_chunk_data(self, x: int, z: int) -> bytes:
         file: object = open(self.path, "rb")
-        index_location: int = self.get_location(x, z)
+        index_location: int = region.get_location(x, z)
         file.seek(index_location)
         offset: int = binary_converter.read_unsigned_triad_be(file.read(3))
         sector_count: int = binary_converter.read_unsigned_byte(file.read(1))
@@ -90,7 +95,7 @@ class region:
                 ccc += b"\x00" * remaining
                 break
             size += 4096
-        index_location: int = self.get_location(x, z)
+        index_location: int = region.get_location(x, z)
         index_location_data: bytes = b""
         timestamp_data: bytes = b""
         chunks_data: bytes = b""
