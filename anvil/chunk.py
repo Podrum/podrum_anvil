@@ -54,7 +54,7 @@ class chunk:
         tag: object = compound_tag()
         tag.set_tag(compound_tag())
         level_tag: object = self.data
-        level_tag.set_tag(int_tag("xPos", self.x)
-        level_tag.set_tag(int_tag("zPos", self.s)
+        level_tag.set_tag(int_tag("xPos", self.x))
+        level_tag.set_tag(int_tag("zPos", self.s))
         tag.get_tag("").set_tag(level_tag)
         tag.get_tag("").set_tag(int_tag("DataVersion", self.data_version))
