@@ -43,12 +43,7 @@ class region:
         file_name_shards: list = file_name.split(".")
         self.x: int = int(file_name_shards[1])
         self.z: int = int(file_name_shards[2])
-        if file_name_shards[3] == "mca":
-            self.format: str = "mca"
-        elif file_name_shards[3] == "mcapm":
-            self.format: str = "mcapm"
-        elif file_name_shards[3] == "mcr":
-            self.format: str = "mcr"
+        self.format: str = file_name_shards[3]
         if not os.path.isfile(path):
             file: object = open(path, "wb")
             file.write(b"\x00" * 8192)
