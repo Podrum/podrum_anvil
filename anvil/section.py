@@ -71,3 +71,11 @@ class section:
     def set_sky_light(self, x: int, y: int, z: int, light_level: int) -> None:
         block_index: int = section.to_block_index(x, y, z)
         section.set_nibble_4(self.sky_light, block_index, light_level)
+        
+    def get_block_light(self, x: int, y: int, z: int) -> int:
+        block_index: int = section.to_block_index(x, y, z)
+        return section.nibble_4(self.block_light, block_index)
+    
+    def set_block_light(self, x: int, y: int, z: int, light_level: int) -> None:
+        block_index: int = section.to_block_index(x, y, z)
+        section.set_nibble_4(self.block_light, block_index, light_level)
