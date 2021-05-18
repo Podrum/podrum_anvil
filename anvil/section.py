@@ -57,18 +57,13 @@ class section:
         else:
             return (items[index >> 1] >> 4) & 0x0f
         
-    @staticmethod
-    def is_first_sub_index(number: int):
-        return True if (number - (number / 2) - (number >> 1)) == 0 else False
-        
     def get_sky_light(self, x: int, y: int, z: int) -> int:
         block_index: int = section.to_block_index(x, y, z)
         return section.nibble_4(self.sky_light, block_index)
     
     def set_sky_light(self, x: int, y: int, z: int, light_level: int) -> None:
         block_index: int = section.to_block_index(x, y, z)
-        is_first_sub_index: int = section.is_first_sub_index(block_index)
-        if is_first_sub_index:
-            self.sky_light[block_index >> 1]: int = self.get_sky_light(x, y, z) << 4 | section.nibble_4(self.sky_light, block_index + 1)
-        else:
+        if block_index % 2 == 0:
             self.sky_light[block_index >> 1]: int = section.nibble_4(self.sky_light, block_index - 1) << 4 | self.get_sky_light(x, y, z)
+        else:
+            self.sky_light[block_index >> 1]: int = self.get_sky_light(x, y, z) << 4 | section.nibble_4(self.sky_light, block_index + 1)
