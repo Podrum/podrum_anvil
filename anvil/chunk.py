@@ -43,7 +43,9 @@ class chunk:
         tag: object = compound_tag()
         tag.read(stream)
         root_tag: object = tag.read_tag("")
-        self.data_version: int = root_tag.get_tag("DataVersion").value
+        data_version_tag: int = root_tag.get_tag("DataVersion")
+        if data_version_tag is not None:
+            self.data_version: int = data_version_tag.value
         level_tag: object = tag.get_tag("Level")
         self.x: int = level_tag.get_tag("xPos").value
         self.z: int = level_tag.get_tag("zPos").value
@@ -57,4 +59,5 @@ class chunk:
         level_tag.set_tag(int_tag("xPos", self.x))
         level_tag.set_tag(int_tag("zPos", self.s))
         tag.get_tag("").set_tag(level_tag)
-        tag.get_tag("").set_tag(int_tag("DataVersion", self.data_version))
+        if hasattr(self, "data_version"):
+            tag.get_tag("").set_tag(int_tag("DataVersion", self.data_version))
