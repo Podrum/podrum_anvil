@@ -69,6 +69,6 @@ class section:
         block_index: int = section.to_block_index(x, y, z)
         is_first_sub_index: int = section.is_first_sub_index(block_index)
         if is_first_sub_index:
-            pass
+            self.sky_light[block_index >> 1]: int = self.get_sky_light(x, y, z) << 4 | section.nibble_4(self.sky_light, block_index + 1)
         else:
-            pass
+            self.sky_light[block_index >> 1]: int = self.get_sky_light(x, y, z) << 4 | section.nibble_4(self.sky_light, block_index + 1)
