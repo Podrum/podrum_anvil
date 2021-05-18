@@ -48,7 +48,7 @@ class section:
        
     @staticmethod
     def to_block_index(x: int, y: int, z: int) -> int:
-        return y << 8 + z << 4 + x
+        return (y << 8) + (z << 4) + x
     
     @staticmethod
     def nibble_4(items: list, index: int) -> int:
