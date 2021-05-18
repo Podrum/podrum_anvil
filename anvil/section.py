@@ -33,13 +33,34 @@ from nbt_utils.tag.compound_tag import compound_tag
 from nbt_utils.tag.int_tag import int_tag
 from nbt_utils.utils.nbt_be_binary_stream import nbt_be_binary_stream
 
-class chunk:
+class section:
     def __init__(self, pallete: list, block_states: list, block_light: list = [], sky_light: list = []) -> None:
         self.pallete: list = pallete
         self.block_states: int = block_states
         if len(block_light) == 2048:
             self.block_light: list = block_light
+        else:
+            self.block_light: list = [0] * 2048
+        if len(sky_light) == 2048:
+            self.sky_light: list = sky_light
+        else:
+            self.sky_light: list = [255] * 2048
        
     @staticmethod
-    def get_block_pos(x: int, y: int, z: int) -> int:
+    def to_block_index(x: int, y: int, z: int) -> int:
         return y << 8 + z << 4 + x
+    
+    @staticmethod
+    def nibble_4(items: list, index: int) -> int:
+        if index % 2 == 0:
+            return items[index >> 1] & 0x0f
+        else:
+            return (items[index >> 1] >> 4) & 0x0f
+        
+    def get_sky_light(self, x: int, y: int, z: int) -> int:
+        block_index: int = section.to_block_index(x, y, z)
+        return section.nibble_4(self.sky_light, block_index)
+    
+    def set_sky_light(self, x: int, y: int, z: int, light_level: int) -> None:
+        pass
+        
