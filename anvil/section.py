@@ -67,7 +67,7 @@ class section:
     
     def set_sky_light(self, x: int, y: int, z: int, light_level: int) -> None:
         block_index: int = section.to_block_index(x, y, z)
-        is_first_sub_index: int = section.one_or_two(block_index)
+        is_first_sub_index: int = section.is_first_sub_index(block_index)
         if is_first_sub_index:
             pass
         else:
