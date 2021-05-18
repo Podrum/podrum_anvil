@@ -60,9 +60,9 @@ class section:
     @staticmethod
     def set_nibble_4(items: list, index: int, value: int) -> list:
         if index % 2 == 0:
-            items[index >> 1]: int = section.nibble_4(items, index - 1) << 4 | section.nibble_4(items, index)
+            items[index >> 1]: int = section.nibble_4(items, index - 1) << 4 | value
         else:
-            items[index >> 1]: int = section.nibble_4(items, index) << 4 | section.nibble_4(items, index + 1)
+            items[index >> 1]: int = value << 4 | section.nibble_4(items, index + 1)
         
     def get_sky_light(self, x: int, y: int, z: int) -> int:
         block_index: int = section.to_block_index(x, y, z)
