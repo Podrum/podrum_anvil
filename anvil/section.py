@@ -63,7 +63,6 @@ class section:
             items[index >> 1]: int = section.nibble_4(items, index - 1) << 4 | section.nibble_4(items, index)
         else:
             items[index >> 1]: int = section.nibble_4(items, index) << 4 | section.nibble_4(items, index + 1)
-        return items
         
     def get_sky_light(self, x: int, y: int, z: int) -> int:
         block_index: int = section.to_block_index(x, y, z)
@@ -71,4 +70,4 @@ class section:
     
     def set_sky_light(self, x: int, y: int, z: int, light_level: int) -> None:
         block_index: int = section.to_block_index(x, y, z)
-        self.sky_light: list = section.set_nibble_4(self.sky_light, block_index, light_level)
+        section.set_nibble_4(self.sky_light, block_index, light_level)
